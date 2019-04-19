@@ -1,6 +1,6 @@
 <?php
 // Appel conexion a la base
-// require '../php/pdo.php';
+// require 'inc/pdo.php';;
 
 $title = 'Articles';
 ob_start();
@@ -8,7 +8,18 @@ ob_start();
 
 <main>
 
-<h1>Mes articles</h1>
+<h1 class="text-center">Mes articles</h1>
+
+<section>
+
+
+
+
+
+
+
+
+</section>
 
 </main>
 

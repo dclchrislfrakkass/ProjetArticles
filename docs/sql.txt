@@ -1,0 +1,99 @@
+-- phpMyAdmin SQL Dump
+-- version 4.8.4
+-- https://www.phpmyadmin.net/
+--
+-- Hôte : localhost:3306
+-- Généré le :  jeu. 18 avr. 2019 à 12:19
+-- Version du serveur :  5.7.24
+-- Version de PHP :  7.2.11
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Base de données :  `articles_b`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `article`
+--
+
+CREATE TABLE `article` (
+  `id_article` int(8) NOT NULL,
+  `titre` varchar(42) DEFAULT NULL,
+  `article` varchar(42) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `ecrit`
+--
+
+CREATE TABLE `ecrit` (
+  `id_utilisateur` int(255) NOT NULL,
+  `id_article` int(8) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `utilisateur`
+--
+
+CREATE TABLE `utilisateur` (
+  `id_utilisateur` int(255, AUTO-INCREMENT),
+  `pseudo` varchar(42) DEFAULT NULL,
+  `email` varchar(250) DEFAULT NULL,
+  `mot_de_passe` varchar(255) DEFAULT NULL,
+  `status` tinyint(1) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Index pour les tables déchargées
+--
+
+--
+-- Index pour la table `article`
+--
+ALTER TABLE `article`
+  ADD PRIMARY KEY (`id_article`);
+
+--
+-- Index pour la table `ecrit`
+--
+ALTER TABLE `ecrit`
+  ADD PRIMARY KEY (`id_utilisateur`,`id_article`) USING BTREE,
+  ADD KEY `id_article` (`id_article`);
+
+--
+-- Index pour la table `utilisateur`
+--
+ALTER TABLE `utilisateur`
+  ADD PRIMARY KEY (`id_utilisateur`);
+
+--
+-- Contraintes pour les tables déchargées
+--
+
+--
+-- Contraintes pour la table `ecrit`
+--
+ALTER TABLE `ecrit`
+  ADD CONSTRAINT `ecrit_ibfk_1` FOREIGN KEY (`id_article`) REFERENCES `article` (`id_article`),
+  ADD CONSTRAINT `ecrit_ibfk_2` FOREIGN KEY (`id_utilisateur`) REFERENCES `utilisateur` (`id_utilisateur`);
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

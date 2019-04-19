@@ -1,13 +1,13 @@
 <?php
 // Appel conexion a la base
-// require '../php/pdo.php';
+// require 'inc/pdo.php';
 
 $title = 'Contact';
 ob_start();
 ?>
 
 <main>
-<h1>Contactez moi</h1>
+<h1 class="text-center">Contactez moi</h1>
 
 
 </main>
