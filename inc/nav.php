@@ -33,6 +33,16 @@
     ?>
     </li>
     <li class="nav-item">
+    <?php
+    if (isset($_SESSION['auth'])){
+        if ($admin){
+        echo "<a class='nav-link text-danger' href='membres.php'>membres</a>";
+        }else {}
+    }
+    else {}
+    ?>
+    </li>
+    <li class="nav-item">
         <a class="nav-link" href="contact.php">Contact</a>
     </li>
     <li class="nav-item">

@@ -13,7 +13,7 @@ ob_start();
     <div class="row">
         <div class="col-12 col-xl-5">
         <h3 class="text-info">Connexion</h3>
-        <form method="post" action="">
+        <form method="POST" action="">
             <label>Pseudo</label>  
             <input type="text" name="username" id="username" class="form-control" required/>
             <br/>
@@ -25,7 +25,7 @@ ob_start();
         </div>
     <div class="col-12 col-xl-5">
         <h3 class="text-info">Inscription</h3>
-        <form method="post" action="">
+        <form method="POST" action="">
             <label>Pseudo</label>  
             <input type="text" name="username" id="username" class="form-control" required/>  
             <br/>  

@@ -5,8 +5,10 @@ $user = $userAuth->pseudo;
 $role = $userAuth->status;
     if($role == 1){
         $admin = 1;
+        $sta = 'Admin';
     } else {
         $admin = 0;
+        $sta = 'Membre';
     }
 }
 ?>
