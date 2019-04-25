@@ -3,7 +3,7 @@ $title = 'Articles';
 ob_start();
 require_once('config/functions.php');
 $articles = getArticles();
-$user = 'frakkass';
+// $user = 'frakkass';
 ?>
 
 <main class="text-center">
