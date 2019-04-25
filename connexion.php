@@ -17,10 +17,10 @@ ob_start();
         <h3 class="text-info">Connexion</h3>
         <form method="POST" action="">
             <label>Pseudo</label>  
-            <input type="text" name="username" id="username" class="form-control" required/>
+            <input type="text" name="logUsername" id="logUsername" class="form-control" required/>
             <br/>
             <label>Mot de passe</label>  
-            <input type="password" name="password" id="password" class="form-control" required/>
+            <input type="password" name="logPassword" id="logPassword" class="form-control" required/>
             <br/>
             <button type="submit" name="login_button" id="login_button" class="btn btn-warning">Connexion</button>
         </form>
@@ -53,21 +53,24 @@ ob_start();
 * CONNEXION
 */
 
-// if(session_status() == PHP_SESSION_NONE) {
+if(session_status() == PHP_SESSION_NONE) {
 
     if(isset($_POST['login_button'])) {
 
 
         /* on test si les champ sont bien remplis */
-        if(!empty($_POST['username']) and !empty($_POST['password']))
+        if(!empty($_POST['logUsername']) and !empty($_POST['logPassword']))
         {
-            $username = htmlspecialchars(trim($_POST['username']));
-            $password = htmlspecialchars(trim($_POST['password']));
+            $username = htmlspecialchars(trim($_POST['logUsername']));
+            $password = htmlspecialchars(trim($_POST['logPassword']));
+
+            require('config/connect.php');
+            $req = $bdd->prepare("SELECT * FROM user WHERE username = ?");
+            $req->execute(array($username));
+            $user = $req->fetch();
+            $req->closeCursor();
     
-            $verifU = verifyUser($username);   
-            $verifyPass = verifyPass($username, $password);
-    
-            if ($verifU)
+            if (!$user)
             {
                 ?>
                 <p class="mx-auto alert alert-danger col-xl-3 mt-5">Mauvais identifiant ou mot de passe !<?= $verifU ?></p>
@@ -76,11 +79,10 @@ ob_start();
             else
             {
                 
-                if (password_verify($_POST['password'], $verifyPass)) {
+                if (password_verify($_POST['logPassword'], $user->password)) {
                     session_start();
                 
                     $_SESSION['auth'] = $user;
-                    $_SESSION['flash']['success'] = 'Vous etes maintenant bien connecté';
                     $pseudoMembre = $user->name;
                     $user = $_SESSION['auth']->name;
                     $idMembre = $user->id;
@@ -88,12 +90,14 @@ ob_start();
                     header('Location: index.php');
                     exit();
                 } else {
-                    echo 'Mauvais identifiant ou mot de passe ! 2';
+                    echo 'Mauvais identifiant ou mot de passe !';
+
+
                 }
             }
         }
     }
-
+}
 
 /**
  * INSCRIPTION
@@ -128,7 +132,7 @@ if (isset($_POST['register_button'])) {
                 } else {
                     // Insertion dans la base de donnée
                     // echo "<p class='mx-auto alert alert-success col-xl-3'> L'utilisateur n'existe pas !</p>";
-
+                    $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
                     addUser($username, $email, $password);
                     ?>
                     <p class="mx-auto alert alert-success col-xl-3">Vous voilà Enregistré !</p>

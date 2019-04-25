@@ -1,6 +1,5 @@
 <?php
 
-
 function getArticles(){
     require('config/connect.php');
     $req = $bdd->prepare('SELECT id, title, date, userId FROM articles ORDER BY id DESC');
@@ -46,20 +45,30 @@ function addUser($username, $email, $password){
     $req->closeCursor();
 }
 
+// function verifyUser($username){
+//     require('config/connect.php');
+//     $req = $bdd->prepare("SELECT * FROM user WHERE username = ?");
+//     $req->execute(array($username));
+//     // $data = $req->fetchAll(PDO::FETCH_OBJ);
+//     // return $data;
+//     $req->closeCursor();
+// }
+// function verifyPass($username, $password){
+//     require('config/connect.php');
+//     $req = $bdd->prepare("SELECT * FROM user WHERE username = ? and password = ?");
+//     $req->execute(array($username, $password));
+//     // $vUser = $req->fetchAll(PDO::FETCH_OBJ);
+//     $req->closeCursor();
+// }
+
 function verifyUser($username){
     require('config/connect.php');
     $req = $bdd->prepare("SELECT * FROM user WHERE username = ?");
     $req->execute(array($username));
-    // $vUser = $req->fetchAll(PDO::FETCH_OBJ);
+    $user = $req->fetch();
     $req->closeCursor();
 }
-function verifyPass($username, $password){
-    require('config/connect.php');
-    $req = $bdd->prepare("SELECT * FROM user WHERE username = ? and password = ?");
-    $req->execute(array($username, $password));
-    // $vUser = $req->fetchAll(PDO::FETCH_OBJ);
-    $req->closeCursor();
-}
+
 function getUser(){
     require('config/connect.php');
     $req = $bdd->prepare('SELECT * FROM user ORDER BY id DESC');

@@ -1,7 +1,7 @@
 <?php 
 if (isset($_SESSION['auth'])){
 $userAuth = $_SESSION['auth'];
-$user = $userAuth->pseudo;
+$user = $userAuth->username;
 $role = $userAuth->status;
     if($role == 1){
         $admin = 1;
