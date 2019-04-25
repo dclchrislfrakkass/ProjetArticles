@@ -50,7 +50,14 @@ function verifyUser($username){
     require('config/connect.php');
     $req = $bdd->prepare("SELECT * FROM user WHERE username = ?");
     $req->execute(array($username));
-    $vUser = $req->fetchAll(PDO::FETCH_OBJ);
+    // $vUser = $req->fetchAll(PDO::FETCH_OBJ);
+    $req->closeCursor();
+}
+function verifyPass($username, $password){
+    require('config/connect.php');
+    $req = $bdd->prepare("SELECT * FROM user WHERE username = ? and password = ?");
+    $req->execute(array($username, $password));
+    // $vUser = $req->fetchAll(PDO::FETCH_OBJ);
     $req->closeCursor();
 }
 function getUser(){

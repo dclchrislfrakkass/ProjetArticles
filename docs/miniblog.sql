@@ -1,11 +1,4 @@
--- phpMyAdmin SQL Dump
--- version 4.8.4
--- https://www.phpmyadmin.net/
---
--- Hôte : localhost:3306
--- Généré le :  jeu. 25 avr. 2019 à 14:19
--- Version du serveur :  5.7.24
--- Version de PHP :  7.2.11
+﻿
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -158,8 +151,8 @@ ALTER TABLE `comments`
 --
 -- Contraintes pour la table `user`
 --
-ALTER TABLE `user`
-  ADD CONSTRAINT `user_ibfk_1` FOREIGN KEY (`id`) REFERENCES `articles` (`userId`);
+/*ALTER TABLE `user`
+/*  ADD CONSTRAINT `user_ibfk_1` FOREIGN KEY (`id`) REFERENCES `articles` (`userId`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

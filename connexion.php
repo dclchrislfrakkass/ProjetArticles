@@ -3,7 +3,7 @@
 // require_once 'inc/pdo.php';
 require_once('config/functions.php');
 
-$title = 'connexion';
+$title = 'Login / Connexion';
 ob_start();
 ?>
 
@@ -48,24 +48,65 @@ ob_start();
 <?php
  
 
+
+/**
+* CONNEXION
+*/
+
+// if(session_status() == PHP_SESSION_NONE) {
+
+    if(isset($_POST['login_button'])) {
+
+
+        /* on test si les champ sont bien remplis */
+        if(!empty($_POST['username']) and !empty($_POST['password']))
+        {
+            $username = htmlspecialchars(trim($_POST['username']));
+            $password = htmlspecialchars(trim($_POST['password']));
+    
+            $verifU = verifyUser($username);   
+            $verifyPass = verifyPass($username, $password);
+    
+            if ($verifU)
+            {
+                ?>
+                <p class="mx-auto alert alert-danger col-xl-3 mt-5">Mauvais identifiant ou mot de passe !<?= $verifU ?></p>
+                <?php 
+            }
+            else
+            {
+                
+                if (password_verify($_POST['password'], $verifyPass)) {
+                    session_start();
+                
+                    $_SESSION['auth'] = $user;
+                    $_SESSION['flash']['success'] = 'Vous etes maintenant bien connecté';
+                    $pseudoMembre = $user->name;
+                    $user = $_SESSION['auth']->name;
+                    $idMembre = $user->id;
+    
+                    header('Location: index.php');
+                    exit();
+                } else {
+                    echo 'Mauvais identifiant ou mot de passe ! 2';
+                }
+            }
+        }
+    }
+
+
 /**
  * INSCRIPTION
  */
  
-
-
-if (isset($_POST['register_button']))
-{
-
+if (isset($_POST['register_button'])) {
 /* on test si les champ sont bien remplis */
     if(!empty($_POST['username']) and !empty($_POST['email']) and !empty($_POST['password']) and !empty($_POST['repeatPassword']))
     {
-
         $username = htmlspecialchars(trim($_POST['username']));
         $email = htmlspecialchars(trim($_POST['email']));
         $password = htmlspecialchars(trim($_POST['password']));
         $repeatPassword = htmlspecialchars(trim($_POST['repeatPassword']));
-
 
         /* on test si le mdp contient bien au moins 6 caractère */
         if (strlen($_POST['password'])>=6)
@@ -81,9 +122,9 @@ if (isset($_POST['register_button']))
                 $vUser = verifyUser($username);
 
                 if ($vUser) {
-                    echo '<div class="top mt-5>';
-                    echo 'Ce nom est déjà utilisé !';
-                    echo '</div>';                  
+                    ?>
+                    <p class="mx-auto alert alert-danger col-xl-3">Cet utilisateur existe déjà !</p>
+                    <?php
                 } else {
                     // Insertion dans la base de donnée
                     // echo "<p class='mx-auto alert alert-success col-xl-3'> L'utilisateur n'existe pas !</p>";
@@ -92,9 +133,7 @@ if (isset($_POST['register_button']))
                     ?>
                     <p class="mx-auto alert alert-success col-xl-3">Vous voilà Enregistré !</p>
                     <?php
-                    unset($username);
-                    unset($email);
-                    unset($password);
+           
 
                 }
 
@@ -105,126 +144,10 @@ if (isset($_POST['register_button']))
     }
     else echo "Veuillez saisir tous les champs !";
 }
-?>
+
+// }
 
 
-
-
-
-
-
-
-
-<?php
-
-
-if(session_status() == PHP_SESSION_NONE) {
-
-if(isset($_POST['login_button'])) {
-
-    /* on test si les champ sont bien remplis */
-    if(!empty($_POST['username']) and !empty($_POST['password']))
-    {
-        // echo "je rentre ici !";
-        $username = htmlspecialchars(trim($_POST['username']));
-        $password = htmlspecialchars(trim($_POST['password']));
-        // $connect = $bd->prepare("SELECT * FROM utilisateur WHERE pseudo = :name");
-        // $connect->bindParam(':name', $username);
-        // $connect->execute();
-        // $user = $connect->fetch();
-        $verifyUser = verifyUser();
-
-        // var_dump($user);
-
-    /* On test si le MDP est rentré, et si les deux MDP ne sont pas différent */
-    // $isPasswordCorrect = password_verify($_POST['password'], $user->password);
-
-        if (!$verifyuser)
-        {
-            echo "<div class='bg-danger text-white col-12 col-xl-2 mx-auto mt-5 text-center'>Mauvais identifiant ou mot de passe !</div>";
-        }
-        else
-        {
-            if (password_verify($_POST['password'], $user->mot_de_passe)) {
-                session_start();
-            
-                $_SESSION['auth'] = $user;
-                $_SESSION['flash']['success'] = 'Vous etes maintenant bien connecté';
-                $pseudoMembre = $user->name;
-                $user = $_SESSION['auth']->name;
-                $idMembre = $user->id;
-
-                header('Location: index.php');
-                exit();
-            } else {
-                echo 'Mauvais identifiant ou mot de passe !';
-            }
-        }
-    }
-}
-}
-
-
-
-if (isset($_POST['register_button']))
-{
-
-/* on test si les champ sont bien remplis */
-    if(!empty($_POST['username']) and !empty($_POST['email']) and !empty($_POST['password']) and !empty($_POST['repeatPassword']))
-    {
-
-        $username = htmlspecialchars(trim($_POST['username']));
-        $email = htmlspecialchars(trim($_POST['email']));
-        $password = htmlspecialchars(trim($_POST['password']));
-        $repeatPassword = htmlspecialchars(trim($_POST['repeatPassword']));
-
-
-        /* on test si le mdp contient bien au moins 6 caractère */
-        if (strlen($_POST['password'])>=6)
-        {
-            /* On test si le MDP est rentré, et si les deux MDP ne sont pas différent */
-            if (empty($_POST['password']) || $_POST['password'] != $_POST['repeatPassword'])
-            {
-                $errors['pass'] = "Vous devez rentrer un mot de passe valide";
-
-            } else {
-                // Vérifie si l'utilisateur n'est pas déjà enregistré
-                // $req = $bd->prepare("SELECT pseudo FROM utilisateur WHERE pseudo = ?");
-             
-                // $req->execute([$_POST['username']]);
-                // $membre = $req->fetch();
-               
-                verifyUser($username);
-
-                if ($username) {
-                    echo '<div class="top mt-5>';
-                    echo 'Ce nom est déjà utilisé !';
-                    echo '</div>';
-                    // echo "<script>alert(\"Utilisateur ".$username. "existe déjà\")</script>";
-    
-                   
-                } else {
-                    // Insertion dans la base de donnée
-   
-                    addUser($username, $email, $password);
-
-                    // $creationUtilisateur = $bd->prepare("INSERT INTO utilisateur SET pseudo = :username, email = :email, mot_de_passe = :password, status = '0'");
-                    // $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
-                    // $creationUtilisateur->bindParam(':username', $_POST['username']);
-                    // $creationUtilisateur->bindParam(':email', $_POST['email']);
-                    // $creationUtilisateur->bindParam(':password', $password);
-                    // $creationUtilisateur->execute();
-                    echo "<script>alert(\"Utilisateur ".$username. " enregistré\")</script>";
-
-                }
-
-            }
-            
-        }
-        else echo "Le mot de passe est trop court !";
-    }
-    else echo "Veuillez saisir tous les champs !";
-}
 ?>
 
 
