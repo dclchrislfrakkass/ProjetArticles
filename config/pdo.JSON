@@ -1,0 +1,6 @@
+{
+    "host": "localhost",
+    "dbName": "miniblog",
+    "user": "root",
+    "pass": ""
+}

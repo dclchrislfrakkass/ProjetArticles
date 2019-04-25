@@ -1,10 +1,12 @@
 <?php
 // Appel conexion a la base
-require_once 'inc/pdo.php';
+// require_once 'inc/pdo.php';
+require_once('config/functions.php');
 
 $title = 'connexion';
 ob_start();
 ?>
+
 
 <main>
 <h1 class="text-center mb-5">Connexion / Inscription</h1>
@@ -45,6 +47,77 @@ ob_start();
 </div>
 <?php
  
+
+/**
+ * INSCRIPTION
+ */
+ 
+
+
+if (isset($_POST['register_button']))
+{
+
+/* on test si les champ sont bien remplis */
+    if(!empty($_POST['username']) and !empty($_POST['email']) and !empty($_POST['password']) and !empty($_POST['repeatPassword']))
+    {
+
+        $username = htmlspecialchars(trim($_POST['username']));
+        $email = htmlspecialchars(trim($_POST['email']));
+        $password = htmlspecialchars(trim($_POST['password']));
+        $repeatPassword = htmlspecialchars(trim($_POST['repeatPassword']));
+
+
+        /* on test si le mdp contient bien au moins 6 caractère */
+        if (strlen($_POST['password'])>=6)
+        {
+            /* On test si le MDP est rentré, et si les deux MDP ne sont pas différent */
+            if (empty($_POST['password']) || $_POST['password'] != $_POST['repeatPassword'])
+            {
+                $errors['pass'] = "Vous devez rentrer un mot de passe valide";
+
+            } else {
+                // Vérifie si l'utilisateur n'est pas déjà enregistré
+               
+                $vUser = verifyUser($username);
+
+                if ($vUser) {
+                    echo '<div class="top mt-5>';
+                    echo 'Ce nom est déjà utilisé !';
+                    echo '</div>';                  
+                } else {
+                    // Insertion dans la base de donnée
+                    // echo "<p class='mx-auto alert alert-success col-xl-3'> L'utilisateur n'existe pas !</p>";
+
+                    addUser($username, $email, $password);
+                    ?>
+                    <p class="mx-auto alert alert-success col-xl-3">Vous voilà Enregistré !</p>
+                    <?php
+                    unset($username);
+                    unset($email);
+                    unset($password);
+
+                }
+
+            }
+            
+        }
+        else echo "Le mot de passe est trop court !";
+    }
+    else echo "Veuillez saisir tous les champs !";
+}
+?>
+
+
+
+
+
+
+
+
+
+<?php
+
+
 if(session_status() == PHP_SESSION_NONE) {
 
 if(isset($_POST['login_button'])) {
@@ -55,18 +128,18 @@ if(isset($_POST['login_button'])) {
         // echo "je rentre ici !";
         $username = htmlspecialchars(trim($_POST['username']));
         $password = htmlspecialchars(trim($_POST['password']));
-        $connect = $bd->prepare("SELECT * FROM utilisateur WHERE pseudo = :name");
-        $connect->bindParam(':name', $username);
-
-        $connect->execute();
-        $user = $connect->fetch();
+        // $connect = $bd->prepare("SELECT * FROM utilisateur WHERE pseudo = :name");
+        // $connect->bindParam(':name', $username);
+        // $connect->execute();
+        // $user = $connect->fetch();
+        $verifyUser = verifyUser();
 
         // var_dump($user);
 
     /* On test si le MDP est rentré, et si les deux MDP ne sont pas différent */
     // $isPasswordCorrect = password_verify($_POST['password'], $user->password);
 
-        if (!$user)
+        if (!$verifyuser)
         {
             echo "<div class='bg-danger text-white col-12 col-xl-2 mx-auto mt-5 text-center'>Mauvais identifiant ou mot de passe !</div>";
         }
@@ -116,16 +189,14 @@ if (isset($_POST['register_button']))
 
             } else {
                 // Vérifie si l'utilisateur n'est pas déjà enregistré
-                $req = $bd->prepare("SELECT pseudo FROM utilisateur WHERE pseudo = ?");
-                // $req->bindParam(':username', $_POST['username']);
-                // $req->execute();
+                // $req = $bd->prepare("SELECT pseudo FROM utilisateur WHERE pseudo = ?");
+             
+                // $req->execute([$_POST['username']]);
                 // $membre = $req->fetch();
-                // var_dump($membre);
-                $req->execute([$_POST['username']]);
-                $membre = $req->fetch();
-                // var_dump($membre);
+               
+                verifyUser($username);
 
-                if ($membre) {
+                if ($username) {
                     echo '<div class="top mt-5>';
                     echo 'Ce nom est déjà utilisé !';
                     echo '</div>';
@@ -134,12 +205,15 @@ if (isset($_POST['register_button']))
                    
                 } else {
                     // Insertion dans la base de donnée
-                    $creationUtilisateur = $bd->prepare("INSERT INTO utilisateur SET pseudo = :username, email = :email, mot_de_passe = :password, status = '0'");
-                    $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
-                    $creationUtilisateur->bindParam(':username', $_POST['username']);
-                    $creationUtilisateur->bindParam(':email', $_POST['email']);
-                    $creationUtilisateur->bindParam(':password', $password);
-                    $creationUtilisateur->execute();
+   
+                    addUser($username, $email, $password);
+
+                    // $creationUtilisateur = $bd->prepare("INSERT INTO utilisateur SET pseudo = :username, email = :email, mot_de_passe = :password, status = '0'");
+                    // $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
+                    // $creationUtilisateur->bindParam(':username', $_POST['username']);
+                    // $creationUtilisateur->bindParam(':email', $_POST['email']);
+                    // $creationUtilisateur->bindParam(':password', $password);
+                    // $creationUtilisateur->execute();
                     echo "<script>alert(\"Utilisateur ".$username. " enregistré\")</script>";
 
                 }

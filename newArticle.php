@@ -33,6 +33,7 @@ if(isset($_POST['addArticle'])) {
     if(!empty($_POST['titreArticle']) and !empty($_POST['texteMessage'])){
         $titreA = htmlspecialchars(trim($_POST['titreArticle']));
         $texteA = htmlspecialchars(trim($_POST['texteMessage']));
+        htmlentities($texteA);
 
         $ajoutArticle = $bd->prepare("INSERT INTO article SET titre = :titre, article = :texte");
         $ajoutArticle->bindParam(':titre', $titreA);

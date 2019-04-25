@@ -1,41 +1,26 @@
 <?php
-// Appel conexion a la base
-require_once 'inc/pdo.php';
-
 $title = 'Articles';
 ob_start();
+require_once('config/functions.php');
+$articles = getArticles();
+$user = 'frakkass';
 ?>
 
-<main>
-
-<h1 class="text-center">Mes articles</h1>
-
-<section>
-<?php
-$i = 1;
-
-$req = $bd->prepare("SELECT * FROM article");
-$req->execute();
-
-while ($article = $req->fetch()){
-    echo "<div class='card bg-light mb-3 col-6 mx-auto'>";
-    echo "<div class='card-header'>Article N $i</div>";
-    echo "<div class='card-body'>";
-    echo "<h4 class='card-title'>$article->titre</h4>";
-    echo "<p class='card-text'>$article->article</p>";
-    echo "</div>";
-    echo "</div>";
-    $i++;
-
-}
-?>
-
-
-</section>
+<main class="text-center">
+<h1>Articles : </h1>
+<?php foreach($articles as $article): ?>
+    <div class='card bg-light mb-3 col-11 col-xl-6 mx-auto'>
+        <h2 class='card-header bg-warning text-white'><?= $article->title ?></h2>
+        <p>de <?= $article->userId ?></p>
+        <time>le <?= $article->date ?></time>
+        <br/>
+        <div class='card-body'>
+        <a href="article.php?id=<?= $article->id ?>">Lire la suite</a>
+    </div>
+    </div>
+<?php endforeach; ?>
 
 </main>
-
-
 
 <?php
 $content = ob_get_clean();
