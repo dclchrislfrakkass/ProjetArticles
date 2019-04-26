@@ -79,13 +79,15 @@ if(session_status() == PHP_SESSION_NONE) {
             else
             {
                 
-                if (password_verify($_POST['logPassword'], $user->password)) {
+                if (password_verify($password, $user->password)) {
                     session_start();
                 
                     $_SESSION['auth'] = $user;
-                    $pseudoMembre = $user->name;
-                    $user = $_SESSION['auth']->name;
-                    $idMembre = $user->id;
+                    $_SESSION['user'] = $username;
+                    // $user = $_SESSION['auth']->name;
+                    $_SESSION['idMembre'] = $user->id;
+                    
+                    var_dump($user);
     
                     header('Location: index.php');
                     exit();

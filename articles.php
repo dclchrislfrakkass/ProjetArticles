@@ -1,5 +1,6 @@
 <?php
 $title = 'Articles';
+session_start();
 ob_start();
 require_once('config/functions.php');
 $articles = getArticles();

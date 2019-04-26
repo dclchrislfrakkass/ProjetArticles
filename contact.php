@@ -1,7 +1,7 @@
 <?php
 // Appel conexion a la base
 // require 'inc/pdo.php';
-
+session_start();
 $title = 'Contact';
 ob_start();
 ?>

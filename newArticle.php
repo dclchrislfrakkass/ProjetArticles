@@ -1,13 +1,21 @@
 <?php
-// Appel conexion a la base
-require 'inc/pdo.php';
-
+require_once('config/connect.php');
 $title = 'Nouvel article';
+session_start();
 ob_start();
 ?>
 
 <main>
 <h1 class="text-center">Ecrire un article</h1>
+<?php 
+if (isset($_SESSION['auth'])){
+    echo "<h2 class='text-center'>Hello $user !</h2>";
+    
+}else{
+    echo "<h1 class='text-center'>FUCK !!!!!!!</h1>";
+}
+    ?>
+</h2>
 
 <form method="POST" action="">
 <div class="container">
@@ -34,11 +42,11 @@ if(isset($_POST['addArticle'])) {
         $titreA = htmlspecialchars(trim($_POST['titreArticle']));
         $texteA = htmlspecialchars(trim($_POST['texteMessage']));
         htmlentities($texteA);
-
-        $ajoutArticle = $bd->prepare("INSERT INTO article SET titre = :titre, article = :texte");
-        $ajoutArticle->bindParam(':titre', $titreA);
-        $ajoutArticle->bindParam(':texte', $texteA);
-        $ajoutArticle->execute();
+        $userId = $idMembre;
+        require_once('config/connect.php');
+        $ajoutArticle = $bdd->prepare("INSERT INTO articles SET title = ?, content = ?, date = now(), userId = ?");
+        $ajoutArticle->execute(array($titreA, $texteA, $userId));
+        $ajoutArticle->closeCursor();
 
         echo "<div class='bg-success text-white col-12 col-xl-2 mx-auto mt-5 text-center'>Article ajouté !</div>";
 

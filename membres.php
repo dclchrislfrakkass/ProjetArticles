@@ -1,7 +1,7 @@
 <?php
 // Appel conexion a la base
 require_once 'inc/pdo.php';
-
+session_start();
 $title = 'Gestion des membres';
 ob_start();
 ?>

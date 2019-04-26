@@ -1,5 +1,6 @@
 <?php
 $title = "Edition article";
+session_start(); ²cvw< 
 ob_start();
 
 // $articles = getArticle();

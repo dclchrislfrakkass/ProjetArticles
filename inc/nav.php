@@ -38,9 +38,16 @@
     <li class="nav-item">
         <a class="nav-link" href="contact.php">Contact</a>
     </li>
-    <li class="nav-item">
-
+    <li class="nav-item text-white">
+    <?php 
+    if (isset($_SESSION['auth'])){
+  
+        echo '--> Hello '. $_SESSION['user'] . $user.' <--';
+        }    
+    else {}
+   ?>
     </li>
+
     </ul>
     <div class="nav-item active my-2 my-lg-0 text-light">
     <?php

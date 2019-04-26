@@ -1,15 +1,15 @@
 <?php
 // Appel conexion a la base
 // require 'inc/pdo.php';
-
 $title = 'Accueil';
+session_start();
 ob_start();
 ?>
 <main>
 
 <?php
-if (isset($_SESSION['auth'])){
-    echo "<h1 class='text-center'>Hello $user !</h1>";
+if (!empty($_SESSION['auth'])){
+    echo "<h1 class='text-center'>Hello". $_SESSION['user'] ."!</h1>";
     
 }
 else {
@@ -28,6 +28,7 @@ echo "<h1 class='text-center'>Hello tout le monde !</h1>";
 <p>Biensûr, ils ne parleront de rien préçisement puisque ce n'est qu'à titre de travail personnel que je poste.</p>
 <br/>
 <p> Merci pour votre passage sur le site !</p>
+<?php echo $_SESSION['idMembre']; ?>
 </div>
 
 </article>
