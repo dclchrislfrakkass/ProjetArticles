@@ -9,7 +9,7 @@ ob_start();
 <h1 class="text-center">Ecrire un article</h1>
 <?php 
 if (isset($_SESSION['auth'])){
-    echo "<h2 class='text-center'>Hello $user !</h2>";
+    echo "<h2 class='text-center'>Créateur : ".$_SESSION['user']." !</h2>";
     
 }else{
     echo "<h1 class='text-center'>FUCK !!!!!!!</h1>";
@@ -42,10 +42,10 @@ if(isset($_POST['addArticle'])) {
         $titreA = htmlspecialchars(trim($_POST['titreArticle']));
         $texteA = htmlspecialchars(trim($_POST['texteMessage']));
         htmlentities($texteA);
-        $userId = $idMembre;
+        $author = $_SESSION['user'];
         require_once('config/connect.php');
-        $ajoutArticle = $bdd->prepare("INSERT INTO articles SET title = ?, content = ?, date = now(), userId = ?");
-        $ajoutArticle->execute(array($titreA, $texteA, $userId));
+        $ajoutArticle = $bdd->prepare("INSERT INTO articles SET title = ?, content = ?, author = ?, date = now()");
+        $ajoutArticle->execute(array($titreA, $texteA, $author));
         $ajoutArticle->closeCursor();
 
         echo "<div class='bg-success text-white col-12 col-xl-2 mx-auto mt-5 text-center'>Article ajouté !</div>";

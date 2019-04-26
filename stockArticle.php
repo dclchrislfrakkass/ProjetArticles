@@ -1,6 +1,6 @@
 <?php
-$title = "Edition article";
-session_start();
+$title = "Archiver l'article";
+session_start(); 
 ob_start();
 
 // $articles = getArticle();
@@ -29,7 +29,7 @@ while ($article = $req->fetch()){
     echo "<p class='card-text'>";
     echo "<textarea class='col-12 col-xl-8' name='texteMessage' rows='10' id='texteMessage'>$article->content</textarea>"; 
     echo "</p>";
-    echo "<button type='submit' name='editArticle'  id='editArticle' class='btn btn-warning'>Modifier l'article </button>";
+    echo "<button type='submit' name='editArticle'  id='editArticle' class='btn btn-danger'>Archiver l'article </button>";
     echo "</div>";
     echo "</div>";
 
@@ -39,19 +39,16 @@ while ($article = $req->fetch()){
 
 <?php
 if(isset($_POST['editArticle'])){
-$title = $_POST['titreArticle'];
-$content = $_POST['texteMessage'];
-
-echo $idArticle;
-echo $title;
-echo $content;
+    $title = $_POST['titreArticle'];
+    $content = $_POST['texteMessage'];
 
 
-require_once('config/connect.php');
-$req=$bdd->prepare("UPDATE articles set title = ?, content = ? WHERE id = ?");
-$req->execute(array($title, $content, $idArticle));
-$req->closeCursor();
-header('location: articles.php');
+
+    require_once('config/connect.php');
+    $req=$bdd->prepare("UPDATE articles set stock = '2' WHERE id = $idArticle");
+    $req->execute();
+    $req->closeCursor();
+    header('location: articles.php');
 }
 $content = ob_get_clean();
 require 'template.php';

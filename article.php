@@ -36,7 +36,7 @@ if(!isset($_GET['id']) OR !is_numeric($_GET['id'])){
     $article = getArticle($id);
     $comments = getComments($id);
     $user = getUser($id);
-
+    $userAuth = $_SESSION['user'];
 }
 
 ?>
@@ -45,12 +45,42 @@ if(!isset($_GET['id']) OR !is_numeric($_GET['id'])){
     <a href="articles.php">Retour aux articles</a>
 <section class="text-center">
     <h1><?= $article->title ?></h1>
+    <h2>Auteur : <?= $article->author ?></h2>
     <time><?= $article->date ?></time>
     <p class="mx-auto col-10 col-xl-8"><?= nl2br($article->content) ?></p>
-    <form action="updateArticle.php" method="POST">
+    <?php 
+    if (isset($_SESSION['auth'])){
+        
+        require('config/connect.php');        
+        $req = $bdd->prepare('SELECT * FROM user where username = ?');
+        $req->execute(array($userAuth));
+        $data = $req->fetch();
+        $req->closeCursor();
+                
+ 
+        $author = $article->author;
+        $vAdmin = $_SESSION['status'];
+        // var_dump($user);
+        if ($vAdmin === 0){
+            $admin =  1;
+        }
+        if($userAuth == $author){
+            ?>
+            <form action="updateArticle.php" method="POST">
+                <input type="hidden" name="idArticle" value="<?= $id?>">
+                <input class="btn btn-warning text-white" type="submit" value="Modifier l'article">
+            </form>
+            <form class="mt-5" action="stockArticle.php" method="POST">
         <input type="hidden" name="idArticle" value="<?= $id?>">
-        <input class="btn btn-warning text-white" type="submit" value="Modifier l'article">
+        <input class="btn btn-warning text-white" type="submit" value="Archiver l'article">
     </form>
+    
+    <?php
+    } else {
+        echo "<p class='mx-auto alert alert-danger col-xl-3'>Vous n'êtes pas l'auteur vous ne pouvez donc pas éditer l'article</p>";
+    } 
+    }
+    ?>
     <hr/>
 
     <?php
@@ -68,8 +98,8 @@ if(!isset($_GET['id']) OR !is_numeric($_GET['id'])){
     <form action="article.php?id=<?= $article->id ?>" method="POST">
         <p><label for="author">Pseudo : </label><br/>
     <?php if(isset($_SESSION['auth'])){ ?>
-        <div>RIEN</div>
-        <!-- <input type="text" name="author" id="author" value="<?php if(isset($user)) echo $user ?>"/></p> -->
+        
+        <input type="text" name="author" id="author" value="<?php if(isset($_SESSION['user'])) echo $_SESSION['user'] ?>"/></p>
     <?php }else { ?>
         <input type="text" name="author" id="author" value="<?php if(isset($author)) echo $author ?>"/></p>
     <?php } ?>
@@ -83,7 +113,7 @@ if(!isset($_GET['id']) OR !is_numeric($_GET['id'])){
     <?php foreach($comments as $com): ?>
         <h3><?= $com->author ?></h3>
         <time><?= $com->date ?></time>
-        <p><?= $com->comment ?></p>
+        <p><?= nl2br($com->comment) ?></p>
 <?php endforeach; ?>
 </section>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

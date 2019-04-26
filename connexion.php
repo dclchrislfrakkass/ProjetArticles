@@ -84,10 +84,12 @@ if(session_status() == PHP_SESSION_NONE) {
                 
                     $_SESSION['auth'] = $user;
                     $_SESSION['user'] = $username;
+                    $_SESSION['status'] = $user->status;
                     // $user = $_SESSION['auth']->name;
                     $_SESSION['idMembre'] = $user->id;
                     
-                    var_dump($user);
+                    // var_dump($user);
+
     
                     header('Location: index.php');
                     exit();

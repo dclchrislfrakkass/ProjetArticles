@@ -2,7 +2,7 @@
 
 function getArticles(){
     require('config/connect.php');
-    $req = $bdd->prepare('SELECT id, title, date, userId FROM articles ORDER BY id DESC');
+    $req = $bdd->prepare('SELECT id, title, author, stock, date FROM articles ORDER BY id DESC');
     $req->execute();
     $data = $req->fetchAll(PDO::FETCH_OBJ);
     return $data;
@@ -77,4 +77,3 @@ function getUser(){
     return $dUser;
     $req->closeCursor();
 }
-

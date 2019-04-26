@@ -9,7 +9,7 @@ ob_start();
 
 <?php
 if (!empty($_SESSION['auth'])){
-    echo "<h1 class='text-center'>Hello". $_SESSION['user'] ."!</h1>";
+    echo "<h1 class='text-center'>--> Hello ". $_SESSION['user'] ."!<--</h1>";
     
 }
 else {
@@ -28,7 +28,7 @@ echo "<h1 class='text-center'>Hello tout le monde !</h1>";
 <p>Biensûr, ils ne parleront de rien préçisement puisque ce n'est qu'à titre de travail personnel que je poste.</p>
 <br/>
 <p> Merci pour votre passage sur le site !</p>
-<?php echo $_SESSION['idMembre']; ?>
+
 </div>
 
 </article>
