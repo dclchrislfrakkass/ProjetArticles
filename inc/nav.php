@@ -23,14 +23,7 @@
     ?>
     </li>
     <li class="nav-item">
-    <?php
-    if (isset($_SESSION['auth'])){
-        if ($admin){
-        echo "<a class='nav-link text-warning' href='editArticle.php'>Editer un article</a>";
-        }else {}
-    }
-    else {}
-    ?>
+
     </li>
     <li class="nav-item">
     <?php
