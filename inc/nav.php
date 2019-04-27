@@ -15,9 +15,9 @@
     <li class="nav-item">
     <?php
     if (isset($_SESSION['auth'])){
-        if ($admin){
+        
         echo "<a class='nav-link text-warning' href='newArticle.php'>Ecrire un article</a>";
-        }else {}
+     
     }
     else {}
     ?>

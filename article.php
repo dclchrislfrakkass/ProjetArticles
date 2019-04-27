@@ -1,6 +1,8 @@
 <?php
+$title = "Article";
 session_start();
 ob_start();
+
 ?>
 <?php
 if(!isset($_GET['id']) OR !is_numeric($_GET['id'])){
@@ -35,8 +37,11 @@ if(!isset($_GET['id']) OR !is_numeric($_GET['id'])){
 
     $article = getArticle($id);
     $comments = getComments($id);
+    if(isset($_SESSION['auth'])){
     $user = getUser($id);
     $userAuth = $_SESSION['user'];
+}
+
 }
 
 ?>
@@ -60,11 +65,8 @@ if(!isset($_GET['id']) OR !is_numeric($_GET['id'])){
  
         $author = $article->author;
         $vAdmin = $_SESSION['status'];
-        // var_dump($user);
-        if ($vAdmin === 0){
-            $admin =  1;
-        }
-        if($userAuth == $author){
+
+        if(($userAuth == $author) || ($vAdmin == 1)){
             ?>
             <div class="container">
                 <div class="row justify-content-md-center">
@@ -72,11 +74,12 @@ if(!isset($_GET['id']) OR !is_numeric($_GET['id'])){
                         <input type="hidden" name="idArticle" value="<?= $id?>">
                         <input class="btn btn-warning text-white" type="submit" value="Modifier l'article">
                     </form>
+                    <?php if($article->stock != 2){ ?>
                     <form class="col-3" action="stockArticle.php" method="POST">
                         <input type="hidden" name="idArticle" value="<?= $id?>">
-                        <input class="btn btn-warning text-white" type="submit" value="Archiver l'article">
+                        <input class="btn btn-danger text-white" type="submit" value="Archiver l'article">
                     </form>
-                    <?php
+                    <?php }                     
                     if($article->stock == 0){ ?>
                         <form class="col-3" action="validArticle.php" method="POST">
                             <input type="hidden" name="idArticle" value="<?= $id?>">
