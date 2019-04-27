@@ -85,6 +85,7 @@ if(session_status() == PHP_SESSION_NONE) {
                     $_SESSION['auth'] = $user;
                     $_SESSION['user'] = $username;
                     $_SESSION['status'] = $user->status;
+                    $_SESSION['mail'] = $user->email;
                     // $user = $_SESSION['auth']->name;
                     $_SESSION['idMembre'] = $user->id;
                     

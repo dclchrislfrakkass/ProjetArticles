@@ -11,7 +11,7 @@ if(!array_key_exists('name', $_POST) || $_POST['name'] == '') {
 $errors ['name'] = "vous n'avez pas renseigné votre nom";
 }
 if(!array_key_exists('object', $_POST) || $_POST['object'] == '') {
-    $errors ['object'] = "vous n'avez pas renseigné votre nom";
+    $errors ['object'] = "vous n'avez pas renseigné votre objet";
     }
 // on verifie existence de la clé
 if(!array_key_exists('email', $_POST) || $_POST['email'] == '' || !filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
@@ -57,5 +57,5 @@ header('Location: contact.php');
     </table>
     ';
     mail($to, $subject, $message_content, $headers);
-    header('Location: index.php');
+    header('Location: contact.php?confirm=success');
 }
