@@ -29,8 +29,8 @@ $articles = getArticles();
     <?php var_dump($_SESSION['status']); ?>
     </div> 
     <?php
-    }if($article->stock == '0'){
-        if($_SESSION['status'] == '1'){ ?>
+    }if($article->stock == 0){
+        if($_SESSION['status'] == 1){ ?>
 
         <div class='card bg-light mb-3 col-11 col-xl-6 mx-auto'>
         <h2 class='card-header bg-info text-white'><?= $article->title ?> <--A Valider</h2>

@@ -1,5 +1,5 @@
 <?php
-$title = "Archiver l'article";
+$title = "Valider l'article";
 session_start(); 
 ob_start();
 
@@ -29,8 +29,7 @@ while ($article = $req->fetch()){
     echo "<p class='card-text'>";
     echo "<textarea class='col-12 col-xl-8' name='texteMessage' rows='10' id='texteMessage'>$article->content</textarea>"; 
     echo "</p>";
-    echo "<button type='submit' name='editArticle'  id='editArticle' class='btn btn-danger'>Archiver l'article </button>";
-    echo "<p>*Attention, archiver l'article ne le supprimera pas de la base de données mais il n'apparaitra plus sur le blog.</p>";
+    echo "<button type='submit' name='editArticle'  id='editArticle' class='btn btn-success'>Valider l'article </button>";
     echo "</div>";
     echo "</div>";
 
@@ -46,7 +45,7 @@ if(isset($_POST['editArticle'])){
 
 
     require_once('config/connect.php');
-    $req=$bdd->prepare("UPDATE articles set stock = '2' WHERE id = $idArticle");
+    $req=$bdd->prepare("UPDATE articles set stock = '1' WHERE id = $idArticle");
     $req->execute();
     $req->closeCursor();
     header('location: articles.php');

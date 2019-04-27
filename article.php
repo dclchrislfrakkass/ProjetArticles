@@ -66,16 +66,27 @@ if(!isset($_GET['id']) OR !is_numeric($_GET['id'])){
         }
         if($userAuth == $author){
             ?>
-            <form action="updateArticle.php" method="POST">
-                <input type="hidden" name="idArticle" value="<?= $id?>">
-                <input class="btn btn-warning text-white" type="submit" value="Modifier l'article">
-            </form>
-            <form class="mt-5" action="stockArticle.php" method="POST">
-        <input type="hidden" name="idArticle" value="<?= $id?>">
-        <input class="btn btn-warning text-white" type="submit" value="Archiver l'article">
-    </form>
+            <div class="container">
+                <div class="row justify-content-md-center">
+                    <form class="col-3" action="updateArticle.php" method="POST">
+                        <input type="hidden" name="idArticle" value="<?= $id?>">
+                        <input class="btn btn-warning text-white" type="submit" value="Modifier l'article">
+                    </form>
+                    <form class="col-3" action="stockArticle.php" method="POST">
+                        <input type="hidden" name="idArticle" value="<?= $id?>">
+                        <input class="btn btn-warning text-white" type="submit" value="Archiver l'article">
+                    </form>
+                    <?php
+                    if($article->stock == 0){ ?>
+                        <form class="col-3" action="validArticle.php" method="POST">
+                            <input type="hidden" name="idArticle" value="<?= $id?>">
+                            <input class="btn btn-info text-white" type="submit" value="Publier l'article">
+                        </form>
+                    <?php } ?>
+                </div>
+            </div>
+                <?php
     
-    <?php
     } else {
         echo "<p class='mx-auto alert alert-danger col-xl-3'>Vous n'êtes pas l'auteur vous ne pouvez donc pas éditer l'article</p>";
     } 
@@ -93,8 +104,9 @@ if(!isset($_GET['id']) OR !is_numeric($_GET['id'])){
             <p class="mx-auto alert alert-danger col-xl-3"><?= $error ?></p>
         <?php endforeach; ?>
 
-    <?php endif; ?>
-
+    <?php endif; 
+    if($article->stock == 1){ 
+        ?>
     <form action="article.php?id=<?= $article->id ?>" method="POST">
         <p><label for="author">Pseudo : </label><br/>
     <?php if(isset($_SESSION['auth'])){ ?>
@@ -114,7 +126,8 @@ if(!isset($_GET['id']) OR !is_numeric($_GET['id'])){
         <h3><?= $com->author ?></h3>
         <time><?= $com->date ?></time>
         <p><?= nl2br($com->comment) ?></p>
-<?php endforeach; ?>
+<?php endforeach; 
+}?>
 </section>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
