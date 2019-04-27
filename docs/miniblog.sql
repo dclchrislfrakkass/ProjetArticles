@@ -7,6 +7,15 @@
 -- Version du serveur :  5.7.24
 -- Version de PHP :  7.2.11
 
+
+--Création de la Base
+CREATE DATABASE miniblog2;
+--Utilisation de la table
+USE miniblog;
+
+
+
+
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
 START TRANSACTION;
