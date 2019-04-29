@@ -1,0 +1,6 @@
+Options +FollowSymlinks 
+RewriteEngine On 
+Deny from all
+</FilesMatch>
+
+Options -Indexes

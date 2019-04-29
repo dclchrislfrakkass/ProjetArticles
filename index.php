@@ -1,7 +1,7 @@
 <?php
 // Appel conexion a la base
 // require 'inc/pdo.php';
-$title = 'Accueil';
+$title = 'Miniblog - Accueil';
 session_start();
 ob_start();
 ?>

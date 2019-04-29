@@ -1,22 +1,4 @@
--- phpMyAdmin SQL Dump
--- version 4.8.5
--- https://www.phpmyadmin.net/
---
--- Hôte : localhost:3306
--- Généré le :  sam. 27 avr. 2019 à 13:49
--- Version du serveur :  5.7.24
--- Version de PHP :  7.2.11
-
-
---Création de la Base
-CREATE DATABASE miniblog2;
---Utilisation de la table
-USE miniblog;
-
-
-
-
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+﻿
 SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
