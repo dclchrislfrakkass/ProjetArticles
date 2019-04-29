@@ -1,6 +1,6 @@
 <?php
 // Appel conexion a la base
-require_once 'inc/pdo.php';
+require_once 'config/connect.php';
 session_start();
 $title = 'Gestion des membres';
 ob_start();
@@ -10,7 +10,7 @@ ob_start();
 <h1 class="text-center">Gestion des membres</h1>
 
 <?php
-$req = $bd->prepare("SELECT * FROM utilisateur");
+$req = $bdd->prepare("SELECT * FROM user");
 $req->execute();
 ?>
 <table class="mm-0 ml-xl-3 col-12 col-xl-6">
@@ -24,7 +24,7 @@ $req->execute();
         ?>
         <!-- <li class='mt-2'> -->
         <tr>
-        <?php echo "<td class=><em class='text-warning'> $membre->pseudo </em></td>"; 
+        <?php echo "<td class=><em class='text-warning'> $membre->username </em></td>"; 
         echo "<td><em> $membre->email </em></td>";
         $role = $membre->status;
         if($role == 1){
@@ -39,10 +39,10 @@ $req->execute();
 
         } else {
             echo "<form  method='POST' id='supprime' action=''>";
-            echo "<td><input class='ml-5' type='checkbox' name='$membre->pseudo' value='$membre->id_utilisateur'></td>";
+            echo "<td><input class='ml-5' type='checkbox' name='$membre->username' value='$membre->id'></td>";
         }
         
-        $idUser = $membre->id_utilisateur;
+        $idUser = $membre->id;
         ?>
         </tr>
     <?php 
